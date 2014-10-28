@@ -16,6 +16,7 @@ function onReady() {
 			element.appendChild(option);
 	}
 
+
 	var occupation = document.getElementById('occupation');
 	occupation.addEventListener('change', validateOccupation);
 
@@ -29,6 +30,8 @@ function onReady() {
 
 function onSubmit(evt){
 	var valid = validateForm(this);
+
+
 
 	if (!valid && evt.preventDefault){
 		evt.preventDefault();
@@ -44,11 +47,13 @@ function validateForm(form) {
 	var index;
 	var valid = true;
 
+	valid &= validateBirthday(form);
+	
 	for (index = 0; index < requiredFields.length; index++) {
 		valid &= validateRequiredFields(requiredFields[index], form);
 	}
 
-	valid &= validateBirthday(form);
+	
 	valid &= validateZip(form);
 
 	return valid;
@@ -59,7 +64,7 @@ function validateRequiredFields(field, form) {
 
 	if (0 == form[field].value.trim().length){
 		form[field].className = 'invalid-field form-control';
-		if (form['birthdate']){
+		if (field == 'birthdate'){
 			document.getElementById("birthdateMessage").innerHTML = "Please put a valid birthdate.";
 		}
 		return false;
